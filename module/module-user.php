@@ -45,4 +45,28 @@ function insert($data){
 
     return mysqli_affected_rows($koneksi);
 }
+
+function delete($id, $foto) {
+    global $koneksi;
+
+    // Pastikan $id tidak kosong dan numerik
+    if (empty($id) || !is_numeric($id)) {
+        return false;
+    }
+
+    // Menghapus user dari database
+    $sqlDel = "DELETE FROM tbl_user WHERE userid = $id";
+    mysqli_query($koneksi, $sqlDel);
+
+    // Menghapus file gambar jika bukan gambar default
+    if ($foto != 'default.png') {
+        $filePath = '../assets/image/' . $foto;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
+
+    return mysqli_affected_rows($koneksi);
+}
+?>
 ?>
