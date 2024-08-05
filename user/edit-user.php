@@ -4,19 +4,25 @@ require "../config/config.php";
 require "../config/functions.php";
 require "../module/module-user.php";
 
-$title = "Tambah User - Kasir";
+$title = "Update User - Kasir";
 require "../template/header.php";
 require "../template/navbar.php";
 require "../template/sidebar.php";
 
-if (isset($_POST['simpan']))  {
-  if (insert($_POST) > 0) {
-    echo "<script>
-    alert('user baru berhasil di registrasi!');
-  </script>";
-  }
-}
+$id = $_GET['id'];
 
+$sqlEdit = "SELECT * FROM tbl_user WHERE userid = $id";
+$user  = getData($sqlEdit)[0];
+$level = $user['level'];
+
+if (isset($_POST['koreksi'])){
+    if (update($_POST)) {
+        echo '<script>
+        alert("Data user berhasil di update..");
+        document.location.href = "data-user.php";
+      </script>';
+    }
+}
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -32,7 +38,7 @@ if (isset($_POST['simpan']))  {
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
               <li class="breadcrumb-item"><a href="<?= $main_url ?>user/data-user.php">Users</a></li>
-              <li class="breadcrumb-item active">Add User</li>
+              <li class="breadcrumb-item active">Edit User</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -44,47 +50,41 @@ if (isset($_POST['simpan']))  {
          <div class="card">
           <form action="" method="post" enctype="multipart/form-data">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-plus fa-sm"></i>Add User</h3>
-                <button type="submit" name="simpan" class="btn btn-primary btn-sm float-right"><i class="fas fa-save"></i> Simpan</button>
+                <h3 class="card-title"><i class="fas fa-pen fa-sm"></i>Edit User</h3>
+                <button type="submit" name="koreksi" class="btn btn-primary btn-sm float-right"><i class="fas fa-save"></i> Koreksi</button>
                 <button type="reset" class="btn btn-danger btn-sm float-right mr-1"><i class="fas fa-times"></i> Reset</button>
             </div>
             <div class="card-body">
                 <div class="row">
+                    <input type="hidden" value="<?= $user['userid'] ?>" name="id">
                     <div class="col-lg-8 mb-3">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" name="username" class="form-control" id="username" placeholder="masukkan username" autofocus
-                            autocomplete="off" required>
+                            autocomplete="off" value="<?= $user['username'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="fullname">Fullname</label>
-                            <input type="text" name="fullname" class="form-control" id="fullname" placeholder="masukkan nama lengkap"required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="masukkan password"required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password2">KonfirmasiPassword</label>
-                            <input type="password" name="password2" class="form-control" id="password2" placeholder="masukkan kembali password anda"required>
+                            <input type="text" name="fullname" class="form-control" id="fullname" placeholder="masukkan nama lengkap" value="<?= $user['fullname'] ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="level">Level</label>
                             <select name="level" id="level" class="form-control" required>
                                 <option value="">-- Level User --</option>
-                                <option value="1">Administrator</option>
-                                <option value="2">Supervisor</option>
-                                <option value="3">Operator</option>
+                                <option value="1" <?= selectUser1($level) ?>>Administrator</option>
+                                <option value="2" <?= selectUser2($level) ?>>Supervisor</option>
+                                <option value="3" <?= selectUser3($level) ?>>Operator</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="address">Addres</label>
-                            <textarea name="address" id="address" cols="" rows="3" class="form-control" placeholder="masukkan alamat user" required ></textarea>
+                            <textarea name="address" id="address" cols="" rows="3" class="form-control" placeholder="masukkan alamat user" required  <?= $user['address'] ?>></textarea>
                            
                         </div>
                     </div>
                     <div class="col-lg-4 text-center">
-                        <img src="<?= $main_url ?>assets/image/default.png" class="profile-user-img img-circle mb-3" alt="">
+                        <input type="hidden" name="oldImg" value="<?= $user['foto'] ?>">
+                        <img src="<?= $main_url ?>assets/image/<?= $user['foto'] ?>" class="profile-user-img img-circle mb-3" alt="">
                         <input type="file" class="form-control" name="image">
                         <span class="text-sm">Type File Gambar JPG | PNG | GIF</span><br>
                         <span class="text-sm">Width = Height </span>
