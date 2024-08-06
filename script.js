@@ -1,4 +1,4 @@
-function progres(){
+function progress(){
     let progress =document.querySelector('.progress');
     let step   = 16;
     let loading = setInterval(move, 50);
@@ -10,8 +10,9 @@ function progres(){
             document.location = "auth/login.php";
         }else{
             step += 4;
-            progres.style.width = step + 'px';
+            progress.style.width = step + 'px';
         }
     }
 }
-progres();
+
+progress();

@@ -1,23 +1,40 @@
 <?php
 
+
+session_start();
+
+if (isset($_SESSION["ssLoginPOS"])) {
+  header("location: ../dashboard.php");
+  exit();
+}
+
+
 require "../config/config.php";
 
 if (isset($_POST['login'])) {
-    $username = mysqli_real_escape_string($koneksi, $_POST['username']);
-    $password = mysqli_real_escape_string($koneksi,"SELECT * FROM tbl_user WHERE username ='$username' ");
+  $username = mysqli_real_escape_string($koneksi, $_POST['username']);
+  $password = mysqli_real_escape_string($koneksi, $_POST['password']);
 
-    if (mysqli_num_rows($queryLogin) === 1) {
+  $sql = "SELECT * FROM tbl_user WHERE username ='$username'";
+  $queryLogin = mysqli_query($koneksi, $sql);
+
+  if (mysqli_num_rows($queryLogin) === 1) {
       $row = mysqli_fetch_assoc($queryLogin);
       if (password_verify($password, $row['password'])) {
-        header("location: ../dashboard.php");
-        exit();
-      }else{
-        echo "<script>alert('Password salah..');</script>";
+// set session
+$_SESSION["ssLoginPOS"] = true;
+$_SESSION["ssLoginPOS"] = $username;
+
+          header("location: ../dashboard.php");
+          exit();
+      } else {
+          echo "<script>alert('Password salah..');</script>";
       }
-    }else{
-        echo "<script>alert('Username tidak terdaftar..');</script>";
-    }
+  } else {
+      echo "<script>alert('Username tidak terdaftar..');</script>";
+  }
 }
+
 
 ?>
 
