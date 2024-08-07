@@ -60,49 +60,9 @@ function getData($sql){
 }
 
 function userLogin(){
-    if (isset($_SESSION["ssUserPOS"])) {
-        $userActive = $_SESSION["ssUserPOS"];
-        $dataUser = getData("SELECT * FROM tbl_user WHERE username = '$userActive'");
-        if (!empty($dataUser)) {
-            return $dataUser[0];
-        }
-    }
-    return null;
-}
+    $userActive = $_SESSION["ssUserPOS"];
+    $dataUser   = getData("SELECT * FROM tbl_user WHERE username = '$userActive'")[0];
+    return $dataUser;
+} 
 
-function userMenu(){
-    $uri_path = parse_url($_SESSION['REQUEST_URI'], PHP_URL_PATH);
-    $uri_segments = explode('/', $uri_path);
-    $menu  = $uri_segments[2];
-    return $menu;
-}
-
-function menuHome(){
-    if (userMenu() == 'dashboard.php'){
-        $result = 'active';
-    }else{
-        $result = null;
-    }
-     return $result;
-}
-
-
-
-function menuSetting(){
-    if (userMenu() == 'user') {
-        $result = 'menu-is-opening menu-open';
-    } else {
-        $result = null;
-    }
-    return $result;
-}
-
-function menuUser(){
-    if (userMenu() == 'user'){
-        $result = 'active';
-    }else{
-        $result = null;
-    }
-     return $result;
-}
 
