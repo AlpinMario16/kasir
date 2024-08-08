@@ -18,7 +18,7 @@ function update($data){
     if (!password_verify($curPass, userLogin()['password'])){
         echo "<script>
         alert('Password gagal diperbarui..');
-        document.location='msg=err2';
+        document.location='?msg=err2';
         </script>";
         return false;
     }else{

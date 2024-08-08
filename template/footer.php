@@ -24,11 +24,26 @@
 <script src="<?= $main_url ?>assets/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="<?= $main_url ?>assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="<?= $main_url ?>assets/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= $main_url ?>assets/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= $main_url ?>assets/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= $main_url ?>assets/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?= $main_url ?>assets/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <!-- AdminLTE -->
 <script src="<?= $main_url ?>assets/AdminLTE/dist/js/adminlte.js"></script>
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="<?= $main_url ?>assets/AdminLTE/plugins/chart.js/Chart.min.js"></script>
+
+<script>
+  $(function(){
+    $('#tblData').DataTable();
+
+  });
+
+  
+</script>
 
 </body>
 </html>

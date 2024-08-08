@@ -18,6 +18,10 @@ require "template/navbar.php";
 require "template/sidebar.php";
 
 ?>
+
+<div class="preloader flex-colum justify-content-center align-items-center">
+  <img class="animation_shake" src="assets/AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+</div>
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

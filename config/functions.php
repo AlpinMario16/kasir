@@ -60,9 +60,63 @@ function getData($sql){
 }
 
 function userLogin(){
-    $userActive = $_SESSION["ssUserPOS"];
-    $dataUser   = getData("SELECT * FROM tbl_user WHERE username = '$userActive'")[0];
-    return $dataUser;
-} 
+    // Periksa apakah 'ssUserPOS' ada dalam sesi
+    if (isset($_SESSION["ssUserPOS"])) {
+        $userActive = $_SESSION["ssUserPOS"];
+        
+        // Ambil data user berdasarkan username
+        $result = getData("SELECT * FROM tbl_user WHERE username = '$userActive'");
+        
+        // Periksa apakah hasil query tidak kosong dan elemen pertama ada
+        if (!empty($result) && isset($result[0])) {
+            return $result[0];
+        } else {
+            // Tangani kasus di mana data user tidak ditemukan
+            return null; // atau Anda bisa mengembalikan nilai lain sesuai kebutuhan
+        }
+    } else {
+        // Tangani kasus di mana 'ssUserPOS' tidak ada dalam sesi
+        return null; // atau Anda bisa mengembalikan nilai lain sesuai kebutuhan
+    }
+}
+
+function userMenu()
+{
+    $uri = $_SERVER['REQUEST_URI']; // Mendapatkan URI saat ini
+    $uriSegments = explode('/', $uri); // Memisahkan URI menjadi segmen-segmen
+    $page = end($uriSegments); // Mengambil segmen terakhir dari URI
+
+    // Menentukan menu yang aktif berdasarkan nama halaman
+    if (strpos($page, 'data-supplier') !== false) {
+        return 'supplier';
+    }
+    // Tambahkan kondisi lain jika diperlukan
+    // if (strpos($page, 'data-customer') !== false) {
+    //     return 'customer';
+    // }
+
+    return null;
+}
+
+
+function menuSupplier()
+{
+    if (userMenu() == 'supplier') {
+        $result = 'active';
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+
+function menuMaster()
+{
+    if (userMenu() == 'supplier') {
+        $result = 'menu-is-opening menu-open';
+    } else {
+        $result = null;
+    }
+    return $result;
+}
 
 
