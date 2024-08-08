@@ -82,21 +82,19 @@ function userLogin(){
 
 function userMenu()
 {
-    $uri = $_SERVER['REQUEST_URI']; // Mendapatkan URI saat ini
-    $uriSegments = explode('/', $uri); // Memisahkan URI menjadi segmen-segmen
-    $page = end($uriSegments); // Mengambil segmen terakhir dari URI
+    // Mendapatkan nama file yang sedang dibuka
+    $current_page = basename($_SERVER['PHP_SELF']);
 
-    // Menentukan menu yang aktif berdasarkan nama halaman
-    if (strpos($page, 'data-supplier') !== false) {
+    if ($current_page == 'data-supplier.php' || $current_page == 'edit-supplier.php' || $current_page == 'add-supplier.php') {
         return 'supplier';
+    } elseif ($current_page == 'data-customer.php' || $current_page == 'edit-customer.php' || $current_page == 'add-customer.php') {
+        return 'customer';
+    } elseif ($current_page == 'data-barang.php' || $current_page == 'edit-barang.php' || $current_page == 'add-barang.php') {
+        return 'barang';
     }
-    // Tambahkan kondisi lain jika diperlukan
-    // if (strpos($page, 'data-customer') !== false) {
-    //     return 'customer';
-    // }
-
     return null;
 }
+
 
 
 function menuSupplier()
@@ -111,8 +109,19 @@ function menuSupplier()
 
 function menuMaster()
 {
-    if (userMenu() == 'supplier') {
-        $result = 'menu-is-opening menu-open';
+    $currentMenu = userMenu();
+    if ($currentMenu == 'supplier' || $currentMenu == 'customer' || $currentMenu == 'barang') {
+        return 'menu-is-opening menu-open';
+    }
+    return null;
+}
+
+
+
+function menuCostumer()
+{
+    if (userMenu() == 'costumer') {
+        $result = 'active';
     } else {
         $result = null;
     }

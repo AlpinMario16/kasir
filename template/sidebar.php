@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../assets/dist/img/pp.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../assets/image/pp.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?= 'Alpin' ?></a>
@@ -46,7 +46,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $main_url ?>costumer/data-costumer.php"class="nav-link <?= menuCostumer() ?>" class="nav-link">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Costumer</p>
                         </a>
