@@ -1,6 +1,6 @@
 <?php
 
-function uploadimg($url = null)
+function uploadimg($url = null, $name = null)
 {
     $namafile = $_FILES['image']['name'];
     $ukuran = $_FILES['image']['size'];
@@ -39,6 +39,12 @@ function uploadimg($url = null)
                   </script>';
             return false;
         }
+    }
+
+    if ($name != null ) {
+            $namaFileBaru = $name . '-'. $ekstensiGambar;
+    } else {
+        $namaFileBaru = rand(10, 1000) . '-' . $namafile;
     }
 
     $namaFileBaru = rand(10, 1000) . '-' . $namafile;
@@ -121,6 +127,16 @@ function menuMaster()
 function menuCostumer()
 {
     if (userMenu() == 'costumer') {
+        $result = 'active';
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+
+function menuBarang()
+{
+    if (userMenu() == 'barang') {
         $result = 'active';
     } else {
         $result = null;
