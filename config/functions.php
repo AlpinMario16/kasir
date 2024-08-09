@@ -115,33 +115,25 @@ function menuSupplier()
 
 function menuMaster()
 {
-    $currentMenu = userMenu();
-    if ($currentMenu == 'supplier' || $currentMenu == 'customer' || $currentMenu == 'barang') {
-        return 'menu-is-opening menu-open';
-    }
-    return null;
-}
-
-
-
-function menuCostumer()
-{
-    if (userMenu() == 'costumer') {
-        $result = 'active';
+    if (userMenu() == 'supplier' || userMenu() == 'costumer' || userMenu() == 'barang') {
+        $result = 'menu-is-opening menu-open';
     } else {
         $result = null;
     }
     return $result;
+}
+
+function menuCostumer()
+{
+    // Cek apakah menu aktif adalah 'costumer'
+    return (userMenu() == 'costumer') ? 'active' : null;
 }
 
 function menuBarang()
 {
-    if (userMenu() == 'barang') {
-        $result = 'active';
-    } else {
-        $result = null;
-    }
-    return $result;
+    // Cek apakah menu aktif adalah 'barang'
+    return (userMenu() == 'barang') ? 'active' : null;
 }
+
 
 

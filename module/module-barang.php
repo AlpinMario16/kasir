@@ -3,40 +3,27 @@
 function generateId(){
     global $koneksi;
 
-    // Menjalankan query untuk mendapatkan ID maksimal
+    // Ambil ID maksimal dari database
     $queryId = mysqli_query($koneksi, "SELECT max(id_barang) as maxid FROM tbl_barang");
+    $data = mysqli_fetch_array($queryId);
+    $maxid = $data['maxid'];
 
-    // Memeriksa apakah query berhasil dieksekusi
-    if ($queryId) {
-        $data = mysqli_fetch_array($queryId);
-        $maxid = $data['maxid'];
-
-        // Debugging: Cek nilai maxid
-        echo " " . $maxid . "";
-
-        // Memeriksa apakah maxid bukan null dan bukan string kosong
-        if (!is_null($maxid) && $maxid !== '') {
-            $noUrut = (int) substr($maxid, 4, 3);
-            $noUrut++;
-        } else {
-            $noUrut = 1; // Jika maxid null atau kosong, mulai dari 1
-        }
-    } else {
-        // Jika query gagal, tetapkan $noUrut ke 1
+    // Jika maxid belum ada (belum ada data di database), mulai dari 1
+    if ($maxid == null) {
         $noUrut = 1;
-
-        // Debugging: Tampilkan pesan error jika query gagal
-        echo "Query gagal dieksekusi.<br>";
+    } else {
+        // Ambil angka setelah 'BRG-' dan konversi ke integer
+        $noUrut = (int) substr($maxid, 4);
+        $noUrut++;
     }
 
-    // Membuat ID dengan format "BRG-001", "BRG-002", dst.
+    // Buat ID baru dengan format 'BRG-XXX'
     $newId = "BRG-" . sprintf("%03s", $noUrut);
-
-    // Debugging: Cek nilai ID yang dihasilkan
-    echo "" . $newId . "";
 
     return $newId;
 }
+
+
 
 
 
@@ -89,6 +76,28 @@ function insert($data) {
     mysqli_query($koneksi, $sqlBrg);
 
     // Mengembalikan jumlah baris yang terpengaruh oleh query
+    return mysqli_affected_rows($koneksi);
+}
+
+function delete($id, $gbr){
+    global $koneksi;
+
+    // Jalankan query DELETE
+    $sqlDel = "DELETE FROM tbl_barang WHERE id_barang = '$id'";
+    $result = mysqli_query($koneksi, $sqlDel);
+
+    // Periksa apakah penghapusan berhasil
+    if ($result) {
+        // Hapus gambar jika bukan gambar default
+        if ($gbr != 'default-brg.jpg' && file_exists('../assets/image/' . $gbr)) {
+            unlink('../assets/image/' . $gbr);
+        }
+    } else {
+        // Log atau beri tahu pengguna jika penghapusan gagal
+        error_log("Gagal menghapus barang dengan ID $id: " . mysqli_error($koneksi));
+    }
+
+    // Kembalikan jumlah baris yang terpengaruh
     return mysqli_affected_rows($koneksi);
 }
 
