@@ -24,13 +24,11 @@
                   <a href="<?= $main_url ?>auth/logout.php" class="dropdown-item text-right">
                       Log out <i class="fas fa-sign-out-alt"></i>
                   </a>
-
-              </div>
-            </li>
-
-
-      </ul>
+               </div>
+           </li>
+       </ul>
     </nav>
-</div>
+ </div>
+
 
 </body>

@@ -16,11 +16,7 @@ require "../template/header.php";
 require "../template/navbar.php";
 require "../template/sidebar.php";
 
-if (isset($_GET['msg'])){
-    $msg = $_GET['msg'];
-} else {
-    $msg = '';
-}
+$msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 
 if ($msg == 'deleted') {
     $idbrg = $_GET['idbrg'];
@@ -33,9 +29,16 @@ if ($msg == 'deleted') {
                 </script>";
 }
 
-$kode = @$_GET['pilihbrg'] ? @$_GET['pilihbrg'] : '';
+$kode = isset($_GET['pilihbrg']) ? $_GET['pilihbrg'] : '';
+$selectBrg = null;
+
 if ($kode) {
-    $selectedBrg = getData("SELECT * FROM tbl_barang WHERE id_barang = '$kode'")[0];
+    $selectBrgData = getData("SELECT * FROM tbl_barang WHERE id_barang = '$kode'");
+    if (!empty($selectBrgData)) {
+        $selectBrg = $selectBrgData[0];
+    } else {
+        echo "Barang tidak ditemukan.";
+    }
 }
 
 if (isset($_POST['addbrg'])) {
@@ -44,20 +47,20 @@ if (isset($_POST['addbrg'])) {
         echo "<script>
                 document.location = '?tgl=$tgl'
                 </script>";
-                
     }
 }
+
 if (isset($_POST['simpan'])) {
     if (simpan($_POST)) {
         echo "<script>
-        alert('data pembelian berhasil disimpan');
+        alert('Data pembelian berhasil disimpan');
                 document.location = 'index.php'
                 </script>";
-                
     }
 }
 
 $noBeli = genereteNo();
+$totalPembelian = totalBeli($noBeli);
 
 ?>
 
@@ -81,8 +84,6 @@ $noBeli = genereteNo();
       </div><!-- /.container-fluid -->
     </div>
 
-
-
     <section>
         <div class="container-fluid">
             <form action="" method="post">
@@ -96,7 +97,7 @@ $noBeli = genereteNo();
                                 </div>
                                 <label for="tglNota" class="col-sm-2 col-form-label"> Tanggal Nota</label>
                                 <div class="col-sm-4">
-                                    <input type="date" name="tglNota" class="form-control" id="tglNota" value="<?= @$_GET['tgl'] ? $_GET['tgl'] : date('Y-m-d') ?>" required>
+                                    <input type="date" name="tglNota" class="form-control" id="tglNota" value="<?= isset($_GET['tgl']) ? $_GET['tgl'] : date('Y-m-d') ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
@@ -107,10 +108,10 @@ $noBeli = genereteNo();
                                         <?php
                                         $barang = getData("SELECT * FROM tbl_barang");
                                         foreach($barang as $brg){ ?>
-                                            <option value="?pilihbrg=<?= $brg['id_barang'] ?> <?= @$_GET['pilihbrg'] == $brg['id_barang'] ? 'selected' : null ?>"><?= $brg['id_barang']. " | " . $brg ['nama_barang']?></option>
-                                            <?php
-                                        }
-                                        ?>
+                                            <option value="<?= $brg['id_barang'] ?>" <?= $kode == $brg['id_barang'] ? 'selected' : '' ?>>
+                                                <?= $brg['id_barang']. " | " . $brg['nama_barang'] ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -120,10 +121,10 @@ $noBeli = genereteNo();
                         <div class="card card-outline card-danger pt-3 px-3 pb-2">
                             <h6 class="font-weight-bold text-right">Total Pembelian</h6>
                             <h1 class="font-weight-bold text-right" id="totalPembelian" style="font-size: 40pt;">
-                                <input type="hidden" name="total" value="<?= totalBeli($noBeli) ?>">
-                                <?= number_format(totalBeli($noBeli) ?? 0, 0, ',', '.') ?>
+                            <input type="hidden" name="total" value="<?= $totalPembelian ?>">
+                            <?= number_format($totalPembelian ?? 0, 0, ',', '.') ?>
+                        </h1>
 
-                            </h1>
                         </div>
                     </div>
                 </div>
@@ -131,43 +132,43 @@ $noBeli = genereteNo();
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="hidden" value="<?= @$_GET['pilihbrg'] ? $selectBrg['id_barang'] : '' ?>" name="kodeBrg">
+                                <input type="hidden" value="<?= $kode ? $selectBrg['id_barang'] : '' ?>" name="kodeBrg">
                                 <label for="namaBrg">Nama Barang</label>
-                                <input type="text" name="namaBrg" class="form-control form-control-sm" id="namaBrg" value="<?= @$_GET['pilihbrg'] ? $selectBrg['nama_barang'] : '' ?>"  readonly>
+                                <input type="text" name="namaBrg" class="form-control form-control-sm" id="namaBrg" value="<?= $kode ? $selectBrg['nama_barang'] : '' ?>" readonly>
                             </div>
                         </div>
                         <div class="col-lg-1">
                             <div class="form-group">
                                 <label for="stok">Stok</label>
-                                <input type="number" name="stok" class="form-control form-control-sm" id="stok" value="<?= @$_GET['pilihbrg'] ? $selectBrg['stock'] : '' ?>" readonly>
+                                <input type="number" name="stok" class="form-control form-control-sm" id="stok" value="<?= $kode ? $selectBrg['stock'] : '' ?>" readonly>
                             </div>
                         </div>
                         <div class="col-lg-1">
                             <div class="form-group">
                                 <label for="satuan">Satuan</label>
-                                <input type="text" name="satuan" class="form-control form-control-sm" id="satuan" value="<?= @$_GET['pilihbrg'] ? $selectBrg['satuan'] : '' ?>" readonly>
+                                <input type="text" name="satuan" class="form-control form-control-sm" id="satuan" value="<?= $kode ? $selectBrg['satuan'] : '' ?>" readonly>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="harga">Harga</label>
-                                <input type="number" name="harga" class="form-control form-control-sm" id="harga" value="<?= @$_GET['pilihbrg'] ? $selectBrg['harga_beli'] : '' ?>" readonly>
+                                <input type="number" name="harga" class="form-control form-control-sm" id="harga" value="<?= $kode ? $selectBrg['harga_beli'] : '' ?>" readonly>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="qty">Qty</label>
-                                <input type="number" name="qty" class="form-control form-control-sm" id="qty" value="<?= @$_GET['pilihbrg'] ? 1: '' ?>">
+                                <input type="number" name="qty" class="form-control form-control-sm" id="qty" value="<?= $kode ? 1 : '' ?>">
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="jmlHarga">Jumlah Harga</label>
-                                <input type="number" name="jmlHarga" class="form-control form-control-sm" id="jmlHarga" value="<?= @$_GET['pilihbrg'] ? $selectBrg['harga_beli'] : '' ?>"  readonly>
+                                <input type="number" name="jmlHarga" class="form-control form-control-sm" id="jmlHarga" value="<?= $kode ? $selectBrg['harga_beli'] : '' ?>" readonly>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-info btn-block" name="addBrg"><i class="fas fa-cart-plus fa-sm"></i> Tambah Barang</button>
+                    <button type="submit" class="btn btn-sm btn-info btn-block" name="addbrg"><i class="fas fa-cart-plus fa-sm"></i> Tambah Barang</button>
                 </div>
                 <div class="card card-outline card-success table-responsive px-2">
                     <table class="table table-sm table-hover text-nowrap">
@@ -187,8 +188,6 @@ $noBeli = genereteNo();
                             $no = 1;
                             $brgDetail = getData("SELECT * FROM tbl_beli_detail WHERE no_beli = '$noBeli'");
                             foreach ($brgDetail as $detail){ ?>  
-
-
                             <tr>
                                 <td><?= $no++ ?></td>
                                 <td><?= $detail['kode_brg'] ?></td>
@@ -200,61 +199,38 @@ $noBeli = genereteNo();
                                 <td class="text-right"><?= number_format($detail['jml_harga'],0,',','.') ?></td>
                                 <td class="text-center"> <a href="?idbrg=<?= $detail['kode_brg'] ?>&idbeli=<?= $detail['no_beli'] ?>&qty=<?= $detail['qty'] ?>&tgl=<?= $detail['tgl_beli'] ?>&msg=deleted" class="btn btn-sm btn-danger" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a></td>
                             </tr>
-                            <?php
-                            }
-                            ?>
-                            
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 p2">
-                        <div class="form-group row mb-2">
-                            <label for="suplier" class="col-sm-3 col-form-label col-form-label-sm">Suplier</label>
-                            <div class="col-sm-9">
-                                <select name="suplier" id="suplier" class="form-control form-control-sm">
-                                    <option value="">-- Pilih Suplier --</option>
-                                    <?php
-                                    $suppliers = getData("SELECT * FROM tbl_suplier");
-                                    foreach($suppliers as $supplier){ ?>
-                                        <option value="<?= $supplier['nama'] ?>"><?= $supplier['nama'] ?></option>
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2">
-                            <label for="ketr" class="col-sm-3 col-form-label">Keterangan</label>
-                            <div class="col-sm-9">
-                                <textarea name="ketr" id="ketr" class="form-control form-control-sm"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 p-2">
-                        <button type="submit" name="simpan" id="simpan" class="btn btn-primary btn-sm btn-block"><i class="fa fa-save"></i> Simpan</button>
-                    </div>
-                </div>
+                <button type="submit" name="simpan" class="btn btn-sm btn-success btn-block"><i class="fas fa-save fa-sm"></i> Simpan Transaksi</button>
             </form>
         </div>
     </section>
-
-
-    <script>
-        let pilihbrg = document.getElementById('kodeBrg');
-        let tgl  = document.getElementById('tglNota');
-        pilihbrg.addEventListener('change', function(){
-            document.location.href = this.options[this.selectedIndex].value + '&tgl=' + tgl.value;
-        })
-
-        let qty = document.getElementById('qty');
-        let jmlHarga = document.getElementById('jmlHarga');
-        let harga = document.getElementById('harga');
-        qty.addEventListener('input', function(){
-            jmlHarga.value = qty.value * harga.value;
-        })
-    </script>
 </div>
-<?php 
-require "../template/footer.php";
-?>
+
+<script>
+    let pilihbrg = document.getElementById('kodeBrg');
+    let tgl  = document.getElementById('tglNota');
+    pilihbrg.addEventListener('change', function(){
+        document.location.href = '?pilihbrg=' + this.value + '&tgl=' + tgl.value;
+    });
+
+    let qtyInput = document.getElementById('qty');
+    let hargaInput = document.getElementById('harga');
+    let jmlHargaInput = document.getElementById('jmlHarga');
+
+    qtyInput.addEventListener('input', function() {
+        let qty = parseInt(qtyInput.value);
+        let harga = parseInt(hargaInput.value);
+        jmlHargaInput.value = qty * harga;
+    });
+
+    function hapusData(idbrg, qty, idbeli, tgl) {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+            document.location.href = '?msg=deleted&idbrg=' + idbrg + '&qty=' + qty + '&idbeli=' + idbeli + '&tgl=' + tgl;
+        }
+    }
+</script>
+
+<?php require "../template/footer.php"; ?>

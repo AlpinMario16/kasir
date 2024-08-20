@@ -122,5 +122,4 @@
     </div>
     </div>
     
-    <!-- /.sidebar -->
-  </aside>
+</aside>

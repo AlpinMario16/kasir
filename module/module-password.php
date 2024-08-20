@@ -3,30 +3,41 @@
 function update($data){
     global $koneksi;
 
-    $curPass  = trim(mysqli_real_escape_string($koneksi, $_POST['curPass']));
-    $newPass  = trim(mysqli_real_escape_string($koneksi, $_POST['newPass']));
-    $confPass  = trim(mysqli_real_escape_string($koneksi, $_POST['confPass']));
+    $curPass = trim(mysqli_real_escape_string($koneksi, $data['curPass']));
+    $newPass = trim(mysqli_real_escape_string($koneksi, $data['newPass']));
+    $confPass = trim(mysqli_real_escape_string($koneksi, $data['confPass']));
     $userActive = userLogin()['username'];
+    $storedPassword = userLogin()['password'];
 
+    // Validate if the new password and confirmation password match
     if ($newPass !== $confPass) {
         echo "<script>
-        alert('Password gagal diperbarui..');
-        document.location='?msg=err1';
+            alert('Konfirmasi password tidak cocok dengan password baru.');
+            document.location='?msg=err1';
         </script>";
+        exit;
     }
 
-    if (!password_verify($curPass, userLogin()['password'])){
+    // Validate the current password
+    if (!password_verify($curPass, $storedPassword)) {
         echo "<script>
-        alert('Password gagal diperbarui..');
-        document.location='?msg=err2';
+            alert('Password saat ini tidak benar.');
+            document.location='?msg=err2';
         </script>";
-        return false;
-    }else{
-        $pass = password_hash($newPass, PASSWORD_DEFAULT);
-        mysqli_query($koneksi, "UPDATE tbl_user SET password = '$pass' WHERE username = '$userActive'");
-        return mysqli_affected_rows($koneksi);
+        exit;
+    } 
+
+    // Update password using prepared statement
+    $newHashedPass = password_hash($newPass, PASSWORD_DEFAULT);
+    $stmt = $koneksi->prepare("UPDATE tbl_user SET password = ? WHERE username = ?");
+    $stmt->bind_param("ss", $newHashedPass, $userActive);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        return true; // Password update was successful
+    } else {
+        return false; // Password update failed
     }
+
+    $stmt->close();
 }
-
-
-?>
