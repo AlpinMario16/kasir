@@ -6,18 +6,18 @@ if (!isset($_SESSION["ssLoginPOS"])) {
   exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-supplier.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-supplier.php";
 
 $id = $_GET['id'];
 
 if(delete($id)) {
     echo "
-    <script>document.location.href = 'data-supplier.php?msg=deleted';</script>
+    <script>document.location.href = 'index.php?page=supplier&msg=deleted';</script>
     ";
 }else{
     echo "
-    <script>document.location.href = 'data-supplier.php?msg=deleted';</script>
+    <script>document.location.href = 'index.php?page=supplier&msg=deleted';</script>
     ";
 }

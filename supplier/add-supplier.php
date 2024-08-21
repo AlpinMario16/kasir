@@ -9,14 +9,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
 }
 
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-supplier.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-supplier.php";
 
 $title = "Tambah Supplier - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 $alert = '';
 
@@ -47,7 +47,7 @@ if (isset($_POST['simpan'])){
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-              <li class="breadcrumb-item"><a href="<?= $main_url ?>supplier/data-supplier.php">Supplier</a></li>
+              <li class="breadcrumb-item"><a href="index.php?page=supplier">Supplier</a></li>
               <li class="breadcrumb-item active">Add Supplier</li>
             </ol>
           </div><!-- /.col -->
@@ -97,6 +97,6 @@ if (isset($_POST['simpan'])){
 
 <?php
 
-require "../template/footer.php";
+require "template/footer.php";
 
 ?>

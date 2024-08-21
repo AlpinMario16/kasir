@@ -6,20 +6,20 @@ if (!isset($_SESSION["ssLoginPOS"])) {
     exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-costumer.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-costumer.php";
 
 $title = "Edit Costumer - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 // jalankan fungsi update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (update($_POST)) {
         echo "<script>
-        document.location.href = 'data-costumer.php?msg=updated';
+        document.location.href = 'index.php?page=costumer&msg=updated'
         </script>";
     }
 }
@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= $main_url ?>costumer/data-costumer.php">Costumer</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?page=costumer">Costumer</a></li>
                         <li class="breadcrumb-item active">Edit Costumer</li>
                     </ol>
                 </div><!-- /.col -->
@@ -90,4 +90,4 @@ if (isset($_GET['id'])) {
     </section>
 </div>
 
-<?php require "../template/footer.php"; ?>
+<?php require "template/footer.php"; ?>

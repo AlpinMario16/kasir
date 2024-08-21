@@ -17,7 +17,7 @@
                   <?= 'Admin'?><i class="fas fa-user-cog m1-2"></i>
               </a>
               <div class="dropdown-menu dropdown-menu dropdown-menu-right">
-                  <a href="<?= $main_url ?>auth/change-password.php" class="dropdown-item text-right">
+                  <a href="index.php?page=gantipw" class="dropdown-item text-right">
                       Change Password <i class="fas fa-key"></i>
                   </a>
                   <div class="dropdown-divider"></div>

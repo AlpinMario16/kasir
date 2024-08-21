@@ -6,20 +6,20 @@ if (!isset($_SESSION["ssLoginPOS"])) {
     exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-password.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-password.php";
 
 $title = "Change Password - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 // Update password
 if (isset($_POST['simpan'])) {
     if ($_POST['newPass'] !== $_POST['confPass']) {
         $_SESSION['error'] = 'Kata sandi tidak cocok.';
-        header("Location: change-password.php");
+        header("Location: index.php?page=gantipw");
         exit();
     }
     
@@ -27,11 +27,11 @@ if (isset($_POST['simpan'])) {
     
     if (update(['password' => $hashedPassword])) {
         $_SESSION['success'] = 'Password berhasil diperbarui.';
-        header("Location: change-password.php");
+        header("Location: index.php?page=gantipw");
         exit();
     } else {
         $_SESSION['error'] = 'Terjadi kesalahan saat memperbarui kata sandi.';
-        header("Location: change-password.php");
+        header("Location: index.php?page=gantipw");
         exit();
     }
 }
@@ -97,4 +97,4 @@ $alert2 = '<small class="text-danger p1-2 font-italic">Password saat ini tidak b
         </div>
     </section>
 
-<?php require "../template/footer.php"; ?>
+<?php require "template/footer.php"; ?>

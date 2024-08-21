@@ -6,14 +6,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
   exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-supplier.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-supplier.php";
 
 $title = "Data Supplier - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 if (isset($_GET['msg'])){
     $msg = $_GET['msg'];
@@ -74,7 +74,7 @@ if ($msg ==  'aborted'){
                 } ?>
                 <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-list fa-sm"></i> Data Supplier</h3>
-                <a href="<?= $main_url ?>supplier/add-supplier.php" class="btn btn-sm btn-primary float-right"> <i class="fas fa-plus fa-sm"></i> Add Supplier</a>
+                <a href="<?= $main_url ?>index.php?page=supplier&act=create" class="btn btn-sm btn-primary float-right"> <i class="fas fa-plus fa-sm"></i> Add Supplier</a>
                 </div>
                 <div class="card-body table-responsive p-3">
                     <table class="table table-hover text-nowrap" id="tblData">
@@ -102,8 +102,8 @@ if ($msg ==  'aborted'){
                                     <td><?= $supplier['alamat'] ?></td>
                                     <td><?= $supplier['deskripsi'] ?></td>
                                     <td>
-                                        <a href="edit-supplier.php?id=<?= $supplier['id_supplier'] ?>" class="btn btn-sm btn-warning" title="edit supplier"><i class="fas fa-pen"></i></a>
-                                        <a href="del-supplier.php?id=<?= $supplier['id_supplier'] ?>" 
+                                        <a href="index.php?page=supplier&act=edit&id=<?= $supplier['id_supplier'] ?>" class="btn btn-sm btn-warning" title="edit supplier"><i class="fas fa-pen"></i></a>
+                                        <a href="index.php?page=supplier&act=delete&id=<?= $supplier['id_supplier'] ?>" 
                                         class="btn btn-sm btn-danger" 
                                         title="hapus supplier" 
                                         onclick="return confirm('Anda yakin ingin menghapus supplier ini ?')">
@@ -129,7 +129,7 @@ if ($msg ==  'aborted'){
 <?php
 
 
-require "../template/footer.php";
+require "template/footer.php";
 
 
 ?>

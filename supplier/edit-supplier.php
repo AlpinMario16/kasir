@@ -6,20 +6,20 @@ if (!isset($_SESSION["ssLoginPOS"])) {
     exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-supplier.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-supplier.php";
 
 $title = "Edit Supplier - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 // jalankan fungsi update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (update($_POST)) {
         echo "<script>
-        document.location.href = 'data-supplier.php?msg=updated';
+        document.location.href = 'index.php?page=supplier&msg=updated'
         </script>";
     }
 }
@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= $main_url ?>supplier/data-supplier.php">Supplier</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?page=supplier">Supplier</a></li>
                         <li class="breadcrumb-item active">Edit Supplier</li>
                     </ol>
                 </div><!-- /.col -->
@@ -90,4 +90,4 @@ if (isset($_GET['id'])) {
     </section>
 </div>
 
-<?php require "../template/footer.php"; ?>
+<?php require "template/footer.php"; ?>

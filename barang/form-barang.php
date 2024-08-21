@@ -9,14 +9,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
 }
 
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-barang.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-barang.php";
 
 $title = "Form Barang - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 if (isset($_GET['msg'])){
   $msg  = $_GET['msg'];
@@ -33,7 +33,7 @@ if (isset($_POST['simpan'])) {
   if ($msg != '') {
     if (update($_POST)) {
       echo "
-      <script>document.location.href = 'index.php?msg=updated' ; </script>
+      <script>document.location.href = 'index.php?page=barang&msg=updated' ; </script>
       
       ";
     } else {
@@ -68,7 +68,7 @@ if (isset($_POST['simpan'])) {
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-              <li class="breadcrumb-item"><a href="<?= $main_url ?>barang">Barang</a></li>
+              <li class="breadcrumb-item"><a href="index.php?page=barang">Barang</a></li>
               <li class="breadcrumb-item active"><?= $msg != ''? 'Edit Barang' : 'Add Barang' ?></li>
             </ol>
           </div><!-- /.col -->
@@ -150,7 +150,7 @@ if (isset($_POST['simpan'])) {
           </div>
           <div class="col-lg-4 text-center">
             <input type="hidden" name="oldImg" value="<?= $msg != ''? $barang['gambar'] : null ?>">
-                        <img src="<?= $main_url ?>assets/image/<?= $msg != ''? $barang['gambar'] : 'default-barang.png' ?>" class="profile-user-img img-circle mb-3" alt="">
+                        <img src="assets/image/<?= $msg != ''? $barang['gambar'] : 'default-barang.png' ?>" class="profile-user-img img-circle mb-3" alt="">
                         <input type="file" class="form-control" name="image">
                         <span class="text-sm">Type File Gambar JPG | PNG | GIF</span><br>
                         <span class="text-sm">Width = Height </span>
@@ -165,5 +165,5 @@ if (isset($_POST['simpan'])) {
 
 <?php
 
-require "../template/footer.php";
+require "template/footer.php";
 ?>

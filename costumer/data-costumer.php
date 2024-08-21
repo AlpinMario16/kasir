@@ -6,14 +6,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
   exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-costumer.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-costumer.php";
 
 $title = "Data Costumer - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 if (isset($_GET['msg'])){
     $msg = $_GET['msg'];
@@ -74,7 +74,7 @@ if ($msg ==  'aborted'){
                 } ?>
                 <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-list fa-sm"></i> Data Costumer</h3>
-                <a href="<?= $main_url ?>costumer/add-costumer.php" class="btn btn-sm btn-primary float-right"> <i class="fas fa-plus fa-sm"></i> Add Costumer</a>
+                <a href="<?= $main_url ?>index.php?page=costumer&act=create" class="btn btn-sm btn-primary float-right"> <i class="fas fa-plus fa-sm"></i> Add Costumer</a>
                 </div>
                 <div class="card-body table-responsive p-3">
                     <table class="table table-hover text-nowrap" id="tblData">
@@ -102,8 +102,8 @@ if ($msg ==  'aborted'){
                                     <td><?= $costumer['alamat'] ?></td>
                                     <td><?= $costumer['deskripsi'] ?></td>
                                     <td>
-                                        <a href="edit-costumer.php?id=<?= $costumer['id_costumer'] ?>" class="btn btn-sm btn-warning" title="edit costumer"><i class="fas fa-pen"></i></a>
-                                        <a href="del-costumer.php?id=<?= $costumer['id_costumer'] ?>" 
+                                        <a href="index.php?page=costumer&act=edit&id=<?= $costumer['id_costumer'] ?>" class="btn btn-sm btn-warning" title="edit costumer"><i class="fas fa-pen"></i></a>
+                                        <a href="index.php?page=costumer&act=delete&id=<?= $costumer['id_costumer'] ?>" 
                                         class="btn btn-sm btn-danger" 
                                         title="hapus costumer" 
                                         onclick="return confirm('Anda yakin ingin menghapus costumer ini ?')">
@@ -129,7 +129,7 @@ if ($msg ==  'aborted'){
 <?php
 
 
-require "../template/footer.php";
+require "template/footer.php";
 
 
 ?>

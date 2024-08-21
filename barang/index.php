@@ -9,14 +9,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
 }
 
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-barang.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-barang.php";
 
 $title = "Form Barang - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 if (isset($_GET['msg'])){
     $msg = $_GET['msg'];
@@ -99,7 +99,7 @@ if ($msg == 'updated') {
                 <div class="card-header">
 
                 <h3 class="card-title"><i class="fas fa-list fa-sm"></i>Data Barang</h3>
-                <a href="<?= $main_url ?>barang/form-barang.php" class="mr-2 btn btn-sm btn-primary float-right"><i class="fas fa-plus fa-sm"></i>Add Barang</a>
+                <a href="index.php?page=barang&act=create" class="mr-2 btn btn-sm btn-primary float-right"><i class="fas fa-plus fa-sm"></i>Add Barang</a>
 
                 </div>
                 <div class="card-body title-responsive p-3">
@@ -121,7 +121,7 @@ if ($msg == 'updated') {
                             foreach ($barang as $brg) { ?>
                             <tr>
                                 <td>
-                                    <img src="../assets/image/<?= $brg['gambar'] ?>" alt="gambar barang" class="rounded-circle" width="60px">
+                                    <img src="assets/image/<?= $brg['gambar'] ?>" alt="gambar barang" class="rounded-circle" width="60px">
                                 </td>
                                 <td><?= $brg['id_barang'] ?></td>
                                 <td><?= $brg['nama_barang'] ?></td>
@@ -131,8 +131,8 @@ if ($msg == 'updated') {
                                     <button type="button" class="btn btn-sm btn-secondary" id="btnCetakBarcode" data-barcode="<?= $brg['barcode'] ?>" data-nama="<?= $brg['nama_barang'] ?>" title="cetak barcode" > <i class="fas fa-barcode"></i>
 
                                     </button>
-                                    <a href="form-barang.php?id=<?= $brg['id_barang'] ?>&msg=editing" class="btn btn-warning btn-sm" title="edit barang"> <i class="fas fa-pen"></i></a>
-                                    <a href="?id=<?= $brg['id_barang'] ?>&gbr=<?= $brg['gambar']?>&msg=deleted" class="btn btn-danger btn-sm" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a>
+                                    <a href="index.php?page=barang&act=edit&id=<?= $brg['id_barang'] ?>&msg=editing" class="btn btn-warning btn-sm" title="edit barang"> <i class="fas fa-pen"></i></a>
+                                    <a href="index.php?page=barang&id=<?= $brg['id_barang'] ?>&gbr=<?= $brg['gambar']?>&msg=deleted" class="btn btn-danger btn-sm" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
 
@@ -219,5 +219,5 @@ if ($msg == 'updated') {
 
 <?php
 
-require "../template/footer.php"
+require "template/footer.php"
 ?>

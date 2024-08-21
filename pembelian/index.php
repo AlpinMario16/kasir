@@ -7,14 +7,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
   exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-beli.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-beli.php";
 
 $title = "Transaksi - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 
@@ -25,7 +25,7 @@ if ($msg == 'deleted') {
     $tgl = $_GET['tgl'];
     delete($idbrg, $idbeli, $qty);
     echo "<script>
-                document.location = '?tgl=$tgl'
+                document.location = 'index.php?page=pembelian&tgl=$tgl'
                 </script>";
 }
 
@@ -45,7 +45,7 @@ if (isset($_POST['addbrg'])) {
     $tgl = $_POST['tglNota'];
     if (insert($_POST)) {
         echo "<script>
-                document.location = '?tgl=$tgl'
+                document.location = 'index.php?page=pembelian&tgl=$tgl'
                 </script>";
     }
 }
@@ -197,7 +197,7 @@ $totalPembelian = totalBeli($noBeli);
                                     <?= $detail['qty'] ?>
                                 </td>
                                 <td class="text-right"><?= number_format($detail['jml_harga'],0,',','.') ?></td>
-                                <td class="text-center"> <a href="?idbrg=<?= $detail['kode_brg'] ?>&idbeli=<?= $detail['no_beli'] ?>&qty=<?= $detail['qty'] ?>&tgl=<?= $detail['tgl_beli'] ?>&msg=deleted" class="btn btn-sm btn-danger" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a></td>
+                                <td class="text-center"> <a href="index.php?page=pembelian&idbrg=<?= $detail['kode_brg'] ?>&idbeli=<?= $detail['no_beli'] ?>&qty=<?= $detail['qty'] ?>&tgl=<?= $detail['tgl_beli'] ?>&msg=deleted" class="btn btn-sm btn-danger" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a></td>
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -213,7 +213,7 @@ $totalPembelian = totalBeli($noBeli);
     let pilihbrg = document.getElementById('kodeBrg');
     let tgl  = document.getElementById('tglNota');
     pilihbrg.addEventListener('change', function(){
-        document.location.href = '?pilihbrg=' + this.value + '&tgl=' + tgl.value;
+        document.location.href = 'index.php?page=pembelian&pilihbrg=' + this.value + '&tgl=' + tgl.value;
     });
 
     let qtyInput = document.getElementById('qty');
@@ -228,9 +228,9 @@ $totalPembelian = totalBeli($noBeli);
 
     function hapusData(idbrg, qty, idbeli, tgl) {
         if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            document.location.href = '?msg=deleted&idbrg=' + idbrg + '&qty=' + qty + '&idbeli=' + idbeli + '&tgl=' + tgl;
+            document.location.href = 'index.php?page=pembelian&msg=deleted&idbrg=' + idbrg + '&qty=' + qty + '&idbeli=' + idbeli + '&tgl=' + tgl;
         }
     }
 </script>
 
-<?php require "../template/footer.php"; ?>
+<?php require "template/footer.php"; ?>

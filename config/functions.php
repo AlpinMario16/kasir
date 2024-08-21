@@ -50,7 +50,7 @@ function uploadimg($url = null, $name = null)
     $namaFileBaru = rand(10, 1000) . '-' . $namafile;
 
     // Pindahkan file yang diupload ke direktori tujuan
-    move_uploaded_file($tmp, '../assets/image/' . $namaFileBaru);
+    move_uploaded_file($tmp, 'assets/image/' . $namaFileBaru);
     return $namaFileBaru;
 }
 

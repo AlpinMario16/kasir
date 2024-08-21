@@ -6,14 +6,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
     exit();
 }
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-jual.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-jual.php";
 
 $title = "Transaksi - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 $kode = @$_GET['barcode'] ? @$_GET['barcode'] : '';
 if ($kode) {
@@ -204,5 +204,5 @@ $nojual = genereteNo();
 
     
 <?php
-require "../template/footer.php";
+require "template/footer.php";
 ?>

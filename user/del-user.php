@@ -8,9 +8,9 @@ if (!isset($_SESSION["ssLoginPOS"])) {
 }
 
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-user.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-user.php";
 
 $id  =$_GET['id'];
 $foto  =$_GET['foto'];
@@ -19,14 +19,14 @@ if (delete($id, $foto)) {
     echo"
     <script>
     alert('user berhasil dihapus..');
-    document.location.href = 'data-user.php';
+    document.location.href = 'index.php?page=user';
     </script>
     ";
 }else{
     echo"
     <script>
     alert('user gagal dihapus..');
-    document.location.href = 'data-user.php';
+    document.location.href = 'index.php?page=user';
     </script>
     ";
 }

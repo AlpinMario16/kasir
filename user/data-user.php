@@ -9,14 +9,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
 }
 
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-user.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-user.php";
 
 $title = "Users - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 ?>
 
@@ -45,7 +45,7 @@ require "../template/sidebar.php";
                 <div class="card-header">
                     <h3 class="card-title"><i class="fas fa-list fa-sm"></i> Data User</h3>
                     <div class="card-tools">
-                        <a href="<?= $main_url ?>user/add-user.php" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-sm"></i> Add User</a>
+                        <a href="index.php?page=user&act=create" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-sm"></i> Add User</a>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-3">
@@ -72,7 +72,7 @@ require "../template/sidebar.php";
                                 ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
-                                    <td><img src="../assets/image/<?= $gambar ?>" class="rounded-circle" alt="" width="60px"></td>
+                                    <td><img src="assets/image/<?= $gambar ?>" class="rounded-circle" alt="" width="60px"></td>
                                     <td><?= $user['username'] ?></td>
                                     <td><?= $user['fullname'] ?></td>
                                     <td><?= $user['address'] ?></td>
@@ -88,8 +88,8 @@ require "../template/sidebar.php";
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="edit-user.php?id=<?= $user['userid'] ?>" class="btn btn-sm btn-warning" title="edit user"><i class="fas fa-user-edit"></i></a>
-                                        <a href="del-user.php?id=<?= $userid ?>&foto=<?= $gambar ?>" class="btn btn-sm btn-danger" title="hapus user" onclick="return confirm('Anda yakin akan menghapus user ini?')"><i class="fas fa-user-times"></i></a>
+                                        <a href="index.php?page=user&act=edit&id=<?= $user['userid'] ?>" class="btn btn-sm btn-warning" title="edit user"><i class="fas fa-user-edit"></i></a>
+                                        <a href="index.php?page=user&act=delete&id=<?= $userid ?>&foto=<?= $gambar ?>" class="btn btn-sm btn-danger" title="hapus user" onclick="return confirm('Anda yakin akan menghapus user ini?')"><i class="fas fa-user-times"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -101,5 +101,5 @@ require "../template/sidebar.php";
     </section>
 
 <?php
-require "../template/footer.php";
+require "template/footer.php";
 

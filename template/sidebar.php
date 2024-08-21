@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../assets/image/pp.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="assets/image/pp.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?= 'Alpin' ?></a>
@@ -40,20 +40,20 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?= $main_url ?>supplier/data-supplier.php"class="nav-link <?= menuSupplier() ?>">
+                        <a href="index.php?page=supplier"class="nav-link <?= menuSupplier() ?>">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Supplier</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $main_url ?>costumer/data-costumer.php"class="nav-link <?= menuCostumer() ?>" class="nav-link">
+                        <a href="index.php?page=costumer"class="nav-link <?= menuCostumer() ?>" class="nav-link">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Costumer</p>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a href="<?= $main_url ?>barang"class="nav-link <?= menuBarang() ?>" class="nav-link">
+                        <a href="index.php?page=barang"class="nav-link <?= menuBarang() ?>" class="nav-link">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Barang</p>
                         </a>
@@ -64,13 +64,13 @@
         
             <li class="nav-header">Transaksi</li>
             <li class="nav-item">
-                <a href="<?= $main_url ?>pembelian" class="nav-link">
+                <a href="index.php?page=pembelian" class="nav-link">
                 <i class="nav-icon fas fa-shopping-cart text-sm"></i>
                 <p>Pembelian</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= $main_url ?>penjualan" class="nav-link">
+                <a href="index.php?page=penjualan" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice text-sm"></i>
                 <p>Penjualan</p>
                 </a>
@@ -106,7 +106,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?= $main_url ?>user/data-user.php" class="nav-link ">
+                        <a href="index.php?page=user" class="nav-link ">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Users</p>
                         </a>

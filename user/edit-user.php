@@ -9,14 +9,14 @@ if (!isset($_SESSION["ssLoginPOS"])) {
 }
 
 
-require "../config/config.php";
-require "../config/functions.php";
-require "../module/module-user.php";
+require "config/config.php";
+require "config/functions.php";
+require "module/module-user.php";
 
 $title = "Update User - Kasir";
-require "../template/header.php";
-require "../template/navbar.php";
-require "../template/sidebar.php";
+require "template/header.php";
+require "template/navbar.php";
+require "template/sidebar.php";
 
 $id = $_GET['id'];
 
@@ -109,6 +109,6 @@ if (isset($_POST['koreksi'])){
 
 <?php
 
-require "../template/footer.php";
+require "template/footer.php";
 
 ?>
