@@ -15,16 +15,40 @@ require "template/header.php";
 require "template/navbar.php";
 require "template/sidebar.php";
 
-$kode = @$_GET['barcode'] ? @$_GET['barcode'] : '';
-if ($kode) {
+$msg = isset($_GET['msg']) ? $_GET['msg'] : '';
+
+if ($msg == 'deleted') {
+    $barcode = $_GET['barcode'];
+    $idjual = $_GET['idjual'];
+    $qty = $_GET['qty'];
     $tgl = $_GET['tgl'];
+    delete($barcode, $idjual, $qty);
+    echo "<script>
+                alert('Barang telah dihapus.');
+                document.location = 'index.php?page=pembelian&tgl=$tgl'
+                </script>";
+}
+
+$kode = isset($_GET['barcode']) ? htmlspecialchars($_GET['barcode']) : '';
+$tgl = isset($_GET['tgl']) ? htmlspecialchars($_GET['tgl']) : date('Y-m-d');
+
+if ($kode) {
     $dataBrg = mysqli_query($koneksi, "SELECT * FROM tbl_barang WHERE barcode = '$kode'");
     $selectBrg = mysqli_fetch_assoc($dataBrg);
-    if (!mysqli_num_rows($dataBrg)) {
+    if (mysqli_num_rows($dataBrg) == 0) {
         echo "<script>
                 alert('Barang dengan barcode tersebut tidak ada.');
                 document.location = '?tgl=$tgl';
               </script>";
+    }
+}
+
+if (isset($_POST['addbrg'])) {
+    $tgl = $_POST['tglNota'];
+    if (insert($_POST)) {
+    echo "<script>
+                document.location = 'index.php?page=penjualan&tgl=$tgl'
+                </script>";
     }
 }
 
@@ -42,7 +66,7 @@ $nojual = genereteNo();
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= $main_url ?>barang">Barang</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?page=barang">Barang</a></li>
                         <li class="breadcrumb-item active">Tambah Penjualan</li>
                     </ol>
                 </div>
@@ -63,13 +87,13 @@ $nojual = genereteNo();
                                 </div>
                                 <label for="tglNota" class="col-sm-2 col-form-label">Tanggal Nota</label>
                                 <div class="col-sm-4">
-                                    <input type="date" name="tglNota" class="form-control" id="tglNota" value="<?= @$_GET['tgl'] ? $_GET['tgl'] : date('Y-m-d') ?>" required>
+                                    <input type="date" name="tglNota" class="form-control" id="tglNota" value="<?= $tgl ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="barcode" class="col-sm-2 col-form-label">Barcode</label>
                                 <div class="col-sm-10 input-group">
-                                    <input type="text" name="barcode" value="<?= @$_GET['barcode'] ? $_GET['barcode'] : '' ?>" class="form-control" placeholder="Masukkan barcode barang">
+                                    <input type="text" name="barcode" value="<?= $kode ?>" class="form-control" placeholder="Masukkan barcode barang">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="icon-barcode"><i class="fas fa-barcode"></i></span>
                                     </div>
@@ -80,9 +104,10 @@ $nojual = genereteNo();
                     <div class="col-lg-6">
                         <div class="card card-outline card-danger pt-3 px-3 pb-2">
                             <h6 class="font-weight-bold text-right">Total Penjualan</h6>
-                            <h1 class="font-weight-bold text-right" id="totalPembelian" style="font-size: 40pt;">
-                                <input type="hidden" name="total" value="0">
-                                0
+                            <h1 class="font-weight-bold text-right" id="totalPenjualan" style="font-size: 40pt;">
+                            <input type="hidden" name="total" value="<?= totalJual($nojual) ?>">
+<?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
+
                             </h1>
                         </div>
                     </div>
@@ -91,7 +116,7 @@ $nojual = genereteNo();
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="hidden" value="<?= isset($selectBrg['id_barang']) ? $selectBrg['id_barang'] : '' ?>" name="barcode">
+                                <input type="hidden" value="<?= isset($selectBrg['barcode']) ? $selectBrg['barcode'] : '' ?>" name="barcode">
                                 <label for="namaBrg">Nama Barang</label>
                                 <input type="text" name="namaBrg" class="form-control form-control-sm" id="namaBrg" value="<?= isset($selectBrg['nama_barang']) ? $selectBrg['nama_barang'] : '' ?>" readonly>
                             </div>
@@ -143,7 +168,23 @@ $nojual = genereteNo();
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Tabel data barang akan diisi di sini -->
+                        <?php 
+                            $no = 1;
+                            $brgDetail = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nojual'");
+
+                            foreach ($brgDetail as $detail){ ?>  
+                            <tr>
+                                <td><?= $no++ ?></td>
+                                <td><?= $detail['kode_brg'] ?></td>
+                                <td><?= $detail['nama_brg'] ?></td>
+                                <td class="text-right"><?= number_format($detail['harga_jual'],0,',','.') ?></td>
+                                <td class="text-right">
+                                    <?= $detail['qty'] ?>
+                                </td>
+                                <td class="text-right"><?= number_format($detail['jml_harga'],0,',','.') ?></td>
+                                <td class="text-center"> <a href="index.php?page=penjualan&barcode=<?= $detail['barcode'] ?>&idjual=<?= $detail['no_jual'] ?>&qty=<?= $detail['qty'] ?>&tgl=<?= $detail['tgl_jual'] ?>&msg=deleted" class="btn btn-sm btn-danger" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -157,7 +198,7 @@ $nojual = genereteNo();
                                     <?php
                                     $costumers = getData("SELECT * FROM tbl_costumer");
                                     foreach($costumers as $costumer){ ?>
-                                        <option value="<?= $costumer['nama'] ?>"><?= $costumer['nama'] ?></option>
+                                        <option value="<?= htmlspecialchars($costumer['nama']) ?>"><?= htmlspecialchars($costumer['nama']) ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -194,15 +235,19 @@ $nojual = genereteNo();
     <script>
         let barcode = document.getElementById('barcode');
         let tgl = document.getElementById('tglNota');
+        let qty  = document.getElementById('qty');
+        let harga  = document.getElementById('harga');
+        let jmlHarga  = document.getElementById('jmlHarga');
 
         barcode.addEventListener('change', function(){
-            document.location.href = '?barcode=' + barcode.value + '&tgl=' + tgl.value;
-        })
+            document.location.href = 'index.php?page=barcode=barcode=' + barcode.value + '&tgl=' + tgl.value;
+        });
+
+      qty.addEventListener('input', function (){
+        document.location.href = '?barcode' + barcode.value + '&tgl=' + tgl.value;
+      }
+    );
     </script>
-            
-
-
-    
 <?php
 require "template/footer.php";
 ?>

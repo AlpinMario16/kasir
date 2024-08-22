@@ -136,4 +136,20 @@ function menuBarang()
 }
 
 
+function insertJual($data) {
+    global $conn; // Menggunakan koneksi database global
+
+    $nojual = $data['nojual'];
+    $kodeBrg = $data['kodeBrg'];
+    $qty = $data['qty'];
+    $harga = $data['harga'];
+    $jmlHarga = $data['jmlHarga'];
+    $tglNota = $data['tglNota'];
+
+    // Query untuk memasukkan data penjualan ke dalam tabel penjualan
+    $query = "INSERT INTO tbl_jual_detail (no_jual, kode_brg, qty, harga_jual, jml_harga, tgl) 
+              VALUES ('$nojual', '$kodeBrg', '$qty', '$harga', '$jmlHarga', '$tglNota')";
+    
+    return mysqli_query($conn, $query);
+}
 
