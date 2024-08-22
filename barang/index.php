@@ -209,7 +209,7 @@ if ($msg == 'updated') {
                 let barcode = $('barcode').val();
                 let jmlCetak = $('#jmlCetak').val();
                 if(jmlCetak > 0 && jmlCetak <=10){
-                    window.open("../report/r-barcode.php?barcode=" + barcode + "&jmlCetak=" + jmlCetak)
+                    window.open("index.php?page=barcode&barcode=" + barcode + "&jmlCetak=" + jmlCetak)
                 }
             })
         })

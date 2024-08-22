@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading</title>
+    <!-- <title>Loading</title> -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -43,6 +43,9 @@
                     break;
                 case 'gantipw':
                     include('auth/change-password.php');
+                    break;
+                case 'barcode':
+                    include('report/r-barcode.php');
                     break;
                     
                 default:
