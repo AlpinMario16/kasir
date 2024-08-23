@@ -25,7 +25,7 @@ if ($msg == 'deleted') {
     delete($barcode, $idjual, $qty);
     echo "<script>
                 alert('Barang telah dihapus.');
-                document.location = 'index.php?page=pembelian&tgl=$tgl'
+                document.location = 'index.php?page=pembelian&tgl=$tgl';
                 </script>";
 }
 
@@ -35,19 +35,23 @@ $tgl = isset($_GET['tgl']) ? htmlspecialchars($_GET['tgl']) : date('Y-m-d');
 if ($kode) {
     $dataBrg = mysqli_query($koneksi, "SELECT * FROM tbl_barang WHERE barcode = '$kode'");
     $selectBrg = mysqli_fetch_assoc($dataBrg);
+
     if (mysqli_num_rows($dataBrg) == 0) {
         echo "<script>
-                alert('Barang dengan barcode tersebut tidak ada.');
-                document.location = '?tgl=$tgl';
-              </script>";
+        alert('Barang dengan barcode tersebut tidak ada.');
+        document.location = '?tgl=$tgl';
+        </script>";
+    } else {
+        // Fetch the ID jual based on the barcode
+        $idjual = genereteNo(); // or another logic to fetch the correct ID jual
     }
 }
 
 if (isset($_POST['addbrg'])) {
     $tgl = $_POST['tglNota'];
     if (insert($_POST)) {
-    echo "<script>
-                document.location = 'index.php?page=penjualan&tgl=$tgl'
+        echo "<script>
+                document.location = 'index.php?page=penjualan&tgl=$tgl';
                 </script>";
     }
 }
@@ -93,7 +97,7 @@ $nojual = genereteNo();
                             <div class="form-group row mb-2">
                                 <label for="barcode" class="col-sm-2 col-form-label">Barcode</label>
                                 <div class="col-sm-10 input-group">
-                                    <input type="text" name="barcode" value="<?= $kode ?>" class="form-control" placeholder="Masukkan barcode barang">
+                                    <input type="text" name="barcode" value="<?= $kode ?>" class="form-control" placeholder="Masukkan barcode barang" id="barcode">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="icon-barcode"><i class="fas fa-barcode"></i></span>
                                     </div>
@@ -105,9 +109,8 @@ $nojual = genereteNo();
                         <div class="card card-outline card-danger pt-3 px-3 pb-2">
                             <h6 class="font-weight-bold text-right">Total Penjualan</h6>
                             <h1 class="font-weight-bold text-right" id="totalPenjualan" style="font-size: 40pt;">
-                            <input type="hidden" name="total" value="<?= totalJual($nojual) ?>">
-<?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
-
+                                <input type="hidden" name="total" value="<?= totalJual($nojual) ?>">
+                                <?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
                             </h1>
                         </div>
                     </div>
@@ -124,7 +127,7 @@ $nojual = genereteNo();
                         <div class="col-lg-1">
                             <div class="form-group">
                                 <label for="stok">Stok</label>
-                                <input type="number" name="stok" class="form-control form-control-sm" id="stok" value="<?= isset($selectBrg['stock']) ? $selectBrg['stock'] : '' ?>" readonly>
+                                <input type="number" name="stok" class="form-control form-control-sm" id="stok" value="<?= $kode ? $selectBrg['stock'] : '' ?>" readonly>
                             </div>
                         </div>
                         <div class="col-lg-1">
@@ -152,7 +155,7 @@ $nojual = genereteNo();
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-info btn-block" name="addBrg"><i class="fas fa-cart-plus fa-sm"></i> Tambah Barang</button>
+                    <button type="submit" class="btn btn-sm btn-info btn-block" name="addbrg"><i class="fas fa-cart-plus fa-sm"></i> Tambah Barang</button>
                 </div>
                 <div class="card card-outline card-success table-responsive px-2">
                     <table class="table table-sm table-hover text-nowrap">
@@ -218,7 +221,7 @@ $nojual = genereteNo();
                             </div>
                         </div>
                         <div class="form-group row mb-2">
-                            <label for="kembalian" class="col-sm-3 col-form-label">Kembaian</label>
+                            <label for="kembalian" class="col-sm-3 col-form-label">Kembalian</label>
                             <div class="col-sm-9">
                                 <input type="number" name="kembalian" class="form-control form-control-sm text-right" id="kembalian" readonly>
                             </div>
@@ -240,13 +243,13 @@ $nojual = genereteNo();
         let jmlHarga  = document.getElementById('jmlHarga');
 
         barcode.addEventListener('change', function(){
-            document.location.href = 'index.php?page=barcode=barcode=' + barcode.value + '&tgl=' + tgl.value;
+            document.location.href = 'index.php?page=penjualan&barcode=' + barcode.value + '&tgl=' + tgl.value;
         });
 
-      qty.addEventListener('input', function (){
-        document.location.href = '?barcode' + barcode.value + '&tgl=' + tgl.value;
-      }
-    );
+        qty.addEventListener('input', function (){
+            let total = qty.value * harga.value;
+            jmlHarga.value = total;
+        });
     </script>
 <?php
 require "template/footer.php";

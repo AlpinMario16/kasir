@@ -46,14 +46,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="index.php?page=costumer"class="nav-link <?= menuCostumer() ?>" class="nav-link">
+                        <a href="index.php?page=costumer"class="nav-link <?= menuCostumer() ?>">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Costumer</p>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a href="index.php?page=barang"class="nav-link <?= menuBarang() ?>" class="nav-link">
+                        <a href="index.php?page=barang"class="nav-link <?= menuBarang() ?>">
                             <i class="far fa-circle nav-icon text-sm"></i>
                             <p>Barang</p>
                         </a>

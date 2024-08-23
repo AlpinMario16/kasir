@@ -85,32 +85,38 @@ function userLogin(){
         return null; // atau Anda bisa mengembalikan nilai lain sesuai kebutuhan
     }
 }
-
 function userMenu()
 {
-    // Mendapatkan nama file yang sedang dibuka
     $current_page = basename($_SERVER['PHP_SELF']);
+    $page = isset($_GET['page']) ? $_GET['page'] : '';
 
-    if ($current_page == 'data-supplier.php' || $current_page == 'edit-supplier.php' || $current_page == 'add-supplier.php') {
+    if (strpos($current_page, 'supplier') !== false || $page === 'supplier') {
         return 'supplier';
-    } elseif ($current_page == 'data-customer.php' || $current_page == 'edit-customer.php' || $current_page == 'add-customer.php') {
-        return 'customer';
-    } elseif ($current_page == 'data-barang.php' || $current_page == 'edit-barang.php' || $current_page == 'add-barang.php') {
+    }
+    
+    if (strpos($current_page, 'costumer') !== false || $page === 'costumer') {
+        return 'costumer';
+    }
+    
+    if (strpos($current_page, 'barang') !== false || $page === 'barang') {
         return 'barang';
     }
+    
     return null;
 }
 
 
 
-function menuSupplier()
-{
-    if (userMenu() == 'supplier') {
-        $result = 'active';
-    } else {
-        $result = null;
-    }
-    return $result;
+
+function menuSupplier() {
+    return (isset($_GET['page']) && $_GET['page'] === 'supplier') ? 'active' : '';
+}
+function menuCostumer() {
+    return (isset($_GET['page']) && $_GET['page'] === 'costumer') ? 'active' : '';
+}
+
+function menuBarang() {
+    return (isset($_GET['page']) && $_GET['page'] === 'barang') ? 'active' : '';
 }
 
 function menuMaster()
@@ -123,17 +129,7 @@ function menuMaster()
     return $result;
 }
 
-function menuCostumer()
-{
-    // Cek apakah menu aktif adalah 'costumer'
-    return (userMenu() == 'costumer') ? 'active' : null;
-}
 
-function menuBarang()
-{
-    // Cek apakah menu aktif adalah 'barang'
-    return (userMenu() == 'barang') ? 'active' : null;
-}
 
 
 function insertJual($data) {

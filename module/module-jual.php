@@ -26,13 +26,13 @@ function genereteNo(){
 function insert($data) {
     global $koneksi;
 
-    $no  = mysqli_real_escape_string($koneksi, $data['nobeli']);
+    $no  = mysqli_real_escape_string($koneksi, $data['nojual']);
     $tgl  = mysqli_real_escape_string($koneksi, $data['tglNota']);
     $kode  = mysqli_real_escape_string($koneksi, $data['barcode']);
     $nama  = mysqli_real_escape_string($koneksi, $data['namaBrg']);
     $qty  = isset($data['qty']) ? mysqli_real_escape_string($koneksi, $data['qty']) : 0;
     $harga  = isset($data['harga']) ? mysqli_real_escape_string($koneksi, $data['harga']) : 0;
-    $jmlharga  = isset($data['jmlHarga']) ? mysqli_real_escape_string($koneksi, $data['jmsHarga']) : 0;
+    $jmlharga  = isset($data['jmlHarga']) ? mysqli_real_escape_string($koneksi, $data['jmlHarga']) : 0;
     $stok  = isset($data['stok']) ? mysqli_real_escape_string($koneksi, $data['stok']) : 0;
 
 
