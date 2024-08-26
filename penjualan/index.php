@@ -56,6 +56,8 @@ if (isset($_POST['addbrg'])) {
     }
 }
 
+
+
 $nojual = genereteNo();
 ?>
 

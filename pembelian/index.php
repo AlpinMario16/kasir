@@ -76,7 +76,7 @@ $totalPembelian = totalBeli($noBeli);
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-              <li class="breadcrumb-item"><a href="<?= $main_url ?>barang">Barang</a></li>
+              <li class="breadcrumb-item"><a href="index.php?page=barang">Barang</a></li>
               <li class="breadcrumb-item active">Tambah Pembelian</li>
             </ol>
           </div><!-- /.col -->
@@ -203,7 +203,32 @@ $totalPembelian = totalBeli($noBeli);
                         </tbody>
                     </table>
                 </div>
-                <button type="submit" name="simpan" class="btn btn-sm btn-success btn-block"><i class="fas fa-save fa-sm"></i> Simpan Transaksi</button>
+                    <div class="row">
+                    <div class="col-lg-4 p2">
+                        <div class="form-group row mb-2">
+                            <label for="supplier" class="col-sm-3 col-form-label col-form-label-sm">Supplier</label>
+                            <div class="col-sm-9">
+                                <select name="supplier" id="supplier" class="form-control form-control-sm">
+                                    <option value="">-- Pilih Supplier --</option>
+                                    <?php
+                                    $suppliers = getData("SELECT * FROM tbl_supplier");
+                                    foreach($suppliers as $supplier){ ?>
+                                        <option value="<?= htmlspecialchars($supplier['nama']) ?>"><?= htmlspecialchars($supplier['nama']) ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    <div class="form-group row mb-2">
+                            <label for="ketr" class="col-sm-3 col-form-label">Keterangan</label>
+                            <div class="col-sm-9">
+                                <textarea name="ketr" id="ketr" class="form-control form-control-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-2">
+                        <button type="submit" name="simpan" id="simpan" class="btn btn-primary btn-sm btn-block"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                    
             </form>
         </div>
     </section>

@@ -47,6 +47,15 @@
                 case 'barcode':
                     include('report/r-barcode.php');
                     break;
+                case 'laporan-pembelian':
+                    include('laporan-pembelian/default.php');
+                     break;
+                case 'detail-pembelian':
+                    include('laporan-pembelian/detail-pembelian.php');
+                    break;
+                case 'print':
+                    include('report/r-beli.php');
+                     break;
                     
                 default:
                     include('dashboard.php');
