@@ -197,7 +197,7 @@ $totalPembelian = totalBeli($noBeli);
                                     <?= $detail['qty'] ?>
                                 </td>
                                 <td class="text-right"><?= number_format($detail['jml_harga'],0,',','.') ?></td>
-                                <td class="text-center"> <a href="index.php?page=pembelian&idbrg=<?= $detail['kode_brg'] ?>&idbeli=<?= $detail['no_beli'] ?>&qty=<?= $detail['qty'] ?>&tgl=<?= $detail['tgl_beli'] ?>&msg=deleted" class="btn btn-sm btn-danger" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a></td>
+                                <td class="text-right"> <a href="index.php?page=pembelian&idbrg=<?= $detail['kode_brg'] ?>&idbeli=<?= $detail['no_beli'] ?>&qty=<?= $detail['qty'] ?>&tgl=<?= $detail['tgl_beli'] ?>&msg=deleted" class="btn btn-sm btn-danger" title="hapus barang" onclick="return confirm('Anda yakin akan menghapus barang ini ?')"><i class="fas fa-trash"></i></a></td>
                             </tr>
                             <?php } ?>
                         </tbody>

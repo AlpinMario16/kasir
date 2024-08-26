@@ -88,3 +88,19 @@ function delete($barcode, $idjual, $qty) {
 
     return mysqli_affected_rows($koneksi);
 }
+function simpan($data) {
+    global $koneksi;
+
+    $nojual  = mysqli_real_escape_string($koneksi, $data['nojual']);
+    $tgl  = mysqli_real_escape_string($koneksi, $data['tglNota']);
+    $total  = isset($data['total']) && is_numeric($data['total']) ? mysqli_real_escape_string($koneksi, $data['total']) : 0;
+    $costumer  = mysqli_real_escape_string($koneksi, $data['costumer']);
+    $keterangan  = isset($data['ketr']) ? mysqli_real_escape_string($koneksi, $data['ketr']) : '';
+    $bayar  = isset($data['bayar']) ? mysqli_real_escape_string($koneksi, $data['bayar']) : '';
+    $kembalian  = isset($data['kembalian']) ? mysqli_real_escape_string($koneksi, $data['kembalian']) : '';
+
+    $sqljual = "INSERT INTO tbl_jual_head  VALUES ('$nojual','$tgl','$costumer',$total,'$keterangan', $bayar,$kembalian)";
+    mysqli_query($koneksi, $sqljual);
+
+    return mysqli_affected_rows($koneksi);
+}
