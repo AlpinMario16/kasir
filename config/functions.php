@@ -119,6 +119,18 @@ function menuBarang() {
     return (isset($_GET['page']) && $_GET['page'] === 'barang') ? 'active' : '';
 }
 
+function laporanStock() {
+    return (isset($_GET['page']) && $_GET['page'] === 'laporan-stock') ? 'active' : '';
+}
+
+function laporanBeli() {
+    return (isset($_GET['page']) && $_GET['page'] === 'laporan-pembelian') ? 'active' : '';
+}
+
+function laporanJual() {
+    return (isset($_GET['page']) && $_GET['page'] === 'laporan-penjualan') ? 'active' : '';
+}
+
 function menuMaster()
 {
     if (userMenu() == 'supplier' || userMenu() == 'costumer' || userMenu() == 'barang') {

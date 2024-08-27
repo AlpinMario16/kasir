@@ -77,19 +77,19 @@
             </li>
             <li class="nav-header">Report</li>
             <li class="nav-item">
-                <a href="index.php?page=laporan-pembelian" class="nav-link">
+                <a href="index.php?page=laporan-pembelian" class="nav-link <?= laporanBeli() ?>">
                 <i class="nav-icon fas fa-chart-pie text-sm"></i>
                 <p>Laporan Pembelian</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="index.php?page=laporan-penjualan" class="nav-link">
+                <a href="index.php?page=laporan-penjualan" class="nav-link <?= laporanJual() ?>">
                 <i class="nav-icon fas fa-chart-line text-sm"></i>
                 <p>Laporan Penjualan</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="index.php?page=laporan-stock" class="nav-link <?= laporanStock() ?>">
                 <i class="nav-icon fas fa-warehouse 
                 text-sm"></i>
                 <p>Laporan Stock</p>

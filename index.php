@@ -59,6 +59,9 @@
                 case 'print':
                     include('report/r-beli.php');
                      break;
+                 case 'laporan-stock':
+                    include('laporan-stock/default.php');
+                        break;
                     
                 default:
                     include('dashboard.php');
