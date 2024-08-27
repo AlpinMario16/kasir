@@ -36,7 +36,7 @@
                     include('user/default.php');
                     break;
                 case 'penjualan':
-                     include('penjualan/index.php');
+                     include('penjualan/default.php');
                      break;
                 case 'pembelian':
                     include('pembelian/index.php');

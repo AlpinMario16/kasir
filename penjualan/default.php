@@ -4,19 +4,19 @@ $page = isset($_GET["act"]) ? $_GET["act"] : '';
 switch ($page) {
 
 
-    case 'create':
-        include('laporan-pembelian/form-barang.php');
+    case 'view':
+        include('penjualan/index.php');
         break;
     case 'edit':
         include('laporan-pembelian/detail-pembelian.php');
         break;
-    case 'print':
-        include('report/r-beli.php');
+    case 'report':
+        include('report/r-struk.php');
         break;
     case 'detail':
         include('laporan-pembelian/detail-pembelian.php');
         break;
     
     default:
-        include('laporan-pembelian/index.php');
+        include('penjualan/index.php');
 }

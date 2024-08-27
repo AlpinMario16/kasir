@@ -31,14 +31,14 @@ if ($msg == 'deleted') {
 }
 
 // jika ada barcode yang di kirim
-$kode = @$_GET['barcode'] ? @$_GET['barcode'] : '';
+$kode = isset($_GET['barcode']) ? $_GET['barcode'] : '';
 
 if ($kode) {
     $tgl = $_GET['tgl'];
     $dataBrg = mysqli_query($koneksi, "SELECT * FROM tbl_barang WHERE barcode = '$kode'");
     $selectBrg = mysqli_fetch_assoc($dataBrg);
 
-    if (mysqli_num_rows($dataBrg)) {
+    if (mysqli_num_rows($dataBrg) == 0) {
         echo "<script>
         alert('Barang dengan barcode tersebut tidak ada.');
         document.location = '?tgl=$tgl';
@@ -46,12 +46,13 @@ if ($kode) {
     }
 }
 
+
 // jika tombol barang ditekan
 if (isset($_POST['addbrg'])) {
     $tgl = $_POST['tglNota'];
     if (insert($_POST)) {
         echo "<script>
-                document.location = 'index.php?page=penjualan&tgl=$tgl';
+                document.location = 'index.php?page=penjualan&act=view&tgl=$tgl';
                 </script>";
     }
 }
@@ -63,7 +64,8 @@ if (isset($_POST['simpan'])) {
         echo "<script>
         alert('Data pembelian berhasil disimpan');
                 window.onload = function(){
-                    let win = window.open('index.php?page=r-struk.php&nota=$nota','Struk Belanja','width=260,height=400,left=10,top=10','_blank');
+                    let win = window.open('index.php?page=penjualan&act=report&nota=<?= $nota ?>','Struk Belanja','width=260,height=400,left=10,top=10','_blank');
+
                     if(win){
                     win.focus();
                     window.location ='index.php';
@@ -107,9 +109,9 @@ $nojual = genereteNo();
                                 <div class="col-sm-4">
                                     <input type="text" name="nojual" class="form-control" id="noNota" value="<?= $nojual ?>" readonly>
                                 </div>
-                                <label for="tglNota" class="col-sm-2 col-form-label">Tanggal Nota</label>
+                                <label for="tglNota" class="col-sm-2 col-form-label"> Tanggal Nota</label>
                                 <div class="col-sm-4">
-                                    <input type="date" name="tglNota" class="form-control" id="tglNota" value="<?= $tgl ?>" required>
+                                    <input type="date" name="tglNota" class="form-control" id="tglNota" value="<?= isset($_GET['tgl']) ? $_GET['tgl'] : date('Y-m-d') ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
@@ -124,14 +126,15 @@ $nojual = genereteNo();
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="card card-outline card-danger pt-3 px-3 pb-2">
-                            <h6 class="font-weight-bold text-right">Total Penjualan</h6>
-                            <h1 class="font-weight-bold text-right" id="totalPenjualan" style="font-size: 40pt;">
-                                <input type="hidden" name="total" value="<?= totalJual($nojual) ?>">
-                                <?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
-                            </h1>
-                        </div>
-                    </div>
+    <div class="card card-outline card-danger pt-3 px-3 pb-2">
+        <h6 class="font-weight-bold text-right">Total Penjualan</h6>
+        <h1 class="font-weight-bold text-right" id="totalPenjualan" style="font-size: 40pt;">
+            <input type="hidden" id="total" name="total" value="<?= totalJual($nojual) ?>">
+            <?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
+        </h1>
+    </div>
+</div>
+
                 </div>
                 <div class="card pt-1 pb-2 px-3">
                     <div class="row">
@@ -180,7 +183,6 @@ $nojual = genereteNo();
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Barang</th>
                                 <th>Nama Barang</th>
                                 <th class="text-right">Harga</th>
                                 <th class="text-right">Qty</th>
@@ -196,7 +198,6 @@ $nojual = genereteNo();
                             foreach ($brgDetail as $detail){ ?>  
                             <tr>
                                 <td><?= $no++ ?></td>
-                                <td><?= $detail['kode_brg'] ?></td>
                                 <td><?= $detail['nama_brg'] ?></td>
                                 <td class="text-right"><?= number_format($detail['harga_jual'],0,',','.') ?></td>
                                 <td class="text-right">
@@ -241,7 +242,7 @@ $nojual = genereteNo();
                         <div class="form-group row mb-2">
                             <label for="kembalian" class="col-sm-3 col-form-label">Kembalian</label>
                             <div class="col-sm-9">
-                                <input type="number" name="kembalian" class="form-control form-control-sm text-right" id="kembalian" readonly>
+                            <input type="number" name="kembalian" class="form-control form-control-sm text-right" id="kembalian" readonly>
                             </div>
                         </div>
                     </div>
@@ -267,13 +268,23 @@ $nojual = genereteNo();
             document.location.href = 'index.php?page=penjualan&barcode=' + barcode.value + '&tgl=' + tgl.value;
         });
 
-        qty.addEventListener('input', function (){
-            jmlHarga.value = qty.value * harga.value;
-        });
 
-        bayar.addEventListener('input', function (){
-            kembalian.value = bayar.value - total.value;
-        });
+document.getElementById('bayar').addEventListener('input', function() {
+    let total = parseFloat(document.getElementById('total').value);
+    let bayar = parseFloat(this.value);
+    let kembalian = bayar - total;
+
+    document.getElementById('kembalian').value = kembalian > 0 ? kembalian : 0;
+});
+
+document.getElementById('qty').addEventListener('input', function() {
+    let harga = parseFloat(document.getElementById('harga').value);
+    let qty = parseInt(this.value);
+    document.getElementById('jmlHarga').value = harga * qty;
+});
+
+
+
     </script>
 <?php
 require "template/footer.php";

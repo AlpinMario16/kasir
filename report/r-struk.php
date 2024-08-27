@@ -10,8 +10,8 @@ require "config/config.php";
 require "config/functions.php";
 
 
-$nota = $_GET['nota'];
-$dataJual = getData("SELECT * FROM tbl_jual_head WHERE no_jual = '$nota'")[0];
+$nota = isset($_GET['nota']) ? $_GET['nota'] : '';
+$dataJual = getData("SELECT * FROM tbl_jual_head WHERE no_jual = '$nota'");
 $itemJual = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nota'");
 
 ?>
@@ -43,7 +43,7 @@ $itemJual = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nota'");
 
     </table>
 
-    <table style="border-bottom: dotte 2px; font-size: 14px;width: 240px;" >
+    <table style="border-bottom: dotted 2px; font-size: 14px;width: 240px;" >
         <?php
             foreach ($itemJual as $item){ ?>
             <tr>
