@@ -83,7 +83,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="index.php?page=laporan-penjualan" class="nav-link">
                 <i class="nav-icon fas fa-chart-line text-sm"></i>
                 <p>Laporan Penjualan</p>
                 </a>

@@ -11,7 +11,7 @@ require "config/functions.php";
 
 $tgl1 = $_GET['tgl1'];
 $tgl2 = $_GET['tgl2'];
-$dataBeli = getData("SELECT * FROM tbl_beli_head WHERE tgl_beli BETWEEN '$tgl1' AND '$tgl2'");
+$dataBeli = getData("SELECT * FROM tbl_jual_head WHERE tgl_jual BETWEEN '$tgl1' AND '$tgl2'");
 ?>
 
 <!DOCTYPE html>
@@ -19,12 +19,12 @@ $dataBeli = getData("SELECT * FROM tbl_beli_head WHERE tgl_beli BETWEEN '$tgl1' 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Pembelian</title>
+    <title>Laporan Pemjualan</title>
 </head>
 <body>
 
 <div style="text-align: center;">
-    <h2 style="margin-bottom: -15px;">Rekap Laporan Pembelian</h2>
+    <h2 style="margin-bottom: -15px;">Rekap Laporan Pemjualan</h2>
     <h2 style="margin-bottom: 15px;">Kasir - Alpin</h2>
 </div>
 
@@ -37,10 +37,10 @@ $dataBeli = getData("SELECT * FROM tbl_beli_head WHERE tgl_beli BETWEEN '$tgl1' 
         </tr>
         <tr>
             <th>No</th>
-            <th style="width: 120px;">Tgl Pembelian</th>
-            <th style="width: 120px;">ID Pembelian</th>
-            <th style="width: 200px;">Supplier</th>
-            <th>Total Pembelian</th>
+            <th style="width: 120px;">Tgl Penjualan</th>
+            <th style="width: 120px;">ID Penjualan</th>
+            <th style="width: 200px;">Costumer</th>
+            <th>Total Penjualan</th>
         </tr>
         <tr>
             <td colspan="5" style="height: 5px;">
@@ -54,9 +54,9 @@ $dataBeli = getData("SELECT * FROM tbl_beli_head WHERE tgl_beli BETWEEN '$tgl1' 
         foreach ($dataBeli as $data){ ?>
         <tr>
             <td><?= $no++ ?></td>
-            <td align="center"><?= in_date($data['tgl_beli']) ?></td>
-            <td align="center"><?= $data['no_beli'] ?></td>
-            <td align="center"><?= htmlspecialchars($data['supplier']) ?></td>
+            <td align="center"><?= in_date($data['tgl_jual']) ?></td>
+            <td align="center"><?= $data['no_jual'] ?></td>
+            <td align="center"><?= htmlspecialchars($data['costumer']) ?></td>
             <td align="right"><?= number_format($data['total'], 0, ",", ".") ?></td>
         </tr>
         <?php

@@ -50,6 +50,9 @@
                 case 'laporan-pembelian':
                     include('laporan-pembelian/default.php');
                      break;
+                 case 'laporan-penjualan':
+                    include('laporan-penjualan/default.php');
+                        break;
                 case 'detail-pembelian':
                     include('laporan-pembelian/detail-pembelian.php');
                     break;
