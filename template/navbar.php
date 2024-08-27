@@ -7,7 +7,12 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        
+        <div class="form-group nav-item ml-3">
+          <div class="custom-control custom-switch custom-switch-on-success nav-link">
+            <input type="checkbox" class="custom-control-input" id="cekDark">
+            <label for="cekDark" class="custom-control-label">Dark Mode</label>
+          </div>
+        </div>
       </ul>
 
       <!-- Right navbar links -->

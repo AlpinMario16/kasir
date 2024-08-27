@@ -130,6 +130,15 @@ function laporanBeli() {
 function laporanJual() {
     return (isset($_GET['page']) && $_GET['page'] === 'laporan-penjualan') ? 'active' : '';
 }
+function menuBeli() {
+    return (isset($_GET['page']) && $_GET['page'] === 'pembelian') ? 'active' : '';
+}
+function menuJual() {
+    return (isset($_GET['page']) && $_GET['page'] === 'penjualan') ? 'active' : '';
+}
+function dashboard() {
+    return (isset($_GET['page']) && $_GET['page'] === 'dashboard') ? 'active' : '';
+}
 
 function menuMaster()
 {
@@ -168,3 +177,12 @@ function in_date($tgl){
     return $tg . "-" . $bln . "-" . $thn;
 }
 
+function omzet(){
+    global $koneksi;
+
+    $queryOmzet = mysqli_query($koneksi, "SELECT sum(total) as omzet FROM tbl_jual_head");
+    $data = mysqli_fetch_assoc($queryOmzet);
+    $omzet = number_format($data['omzet'],0,',','.');
+
+    return $omzet;
+}

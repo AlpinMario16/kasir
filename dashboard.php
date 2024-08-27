@@ -17,6 +17,18 @@ require "template/header.php";
 require "template/navbar.php";
 require "template/sidebar.php";
 
+$users = getData("SELECT * FROM tbl_user");
+$userNum = count($users);
+
+$suppliers = getData("SELECT * FROM tbl_supplier");
+$supplierNum = count($suppliers);
+
+$costumers = getData("SELECT * FROM tbl_costumer");
+$costumerNum = count($costumers);
+
+$barang = getData("SELECT * FROM tbl_barang");
+$brgNum = count($barang);
+
 ?>
 
 <div class="preloader flex-colum justify-content-center align-items-center">
@@ -52,14 +64,14 @@ require "template/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?= $userNum ?></h3>
 
                 <p>Users</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="index.php?page=user" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -67,14 +79,14 @@ require "template/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?= $supplierNum ?></h3>
 
                 <p>Supplier</p>
               </div>
               <div class="icon">
                 <i class="ion ion-android-bus"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="index.php?page=supplier" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -82,14 +94,14 @@ require "template/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?= $costumerNum ?></h3>
 
                 <p>Customer</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-stalker"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="index.php?page=costumer" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -97,17 +109,51 @@ require "template/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?= $brgNum ?></h3>
 
                 <p>Item Barang</p>
               </div>
               <div class="icon">
                 <i class="ion ion-android-cart"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="index.php?page=barang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card card-outline card-danger">
+              <div class="card-header text-info">
+                <h5 class="card-title">Info Stock Barang</h5>
+                <h5><a href="index.php?page=laporan-stock" class="float-right" title="laporan stock"><i class="fas fa-arrow-right"></i></a></h5>
+              </div>
+              <table class="table">
+                <tbody>
+                  <?php
+                    $stockMin = getData("SELECT * FROM tbl_barang WHERE stock < stock_minimal");
+                    foreach($stockMin as $min) {?>
+                        <tr>
+                          <td><?= $min['nama_barang'] ?></td>
+                          <td class="text-danger">Stock Kurang</td>
+                        </tr>
+                    <?php
+                    }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card card-outline card-success">
+              <div class="card-header text-info">
+                <h5>Omset Penjualan</h5>
+              </div>
+              <div class="card-body text-primary">
+                <h2><span class="h4">Rp </span><?= omzet() ?></h2>
+              </div>
+            </div>
+          </div>
         </div>
         </div>
     </div>

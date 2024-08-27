@@ -23,7 +23,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item ">
-                <a href="<?= $main_url ?>dashboard.php" class="nav-link <">
+                <a href="<?= $main_url ?>dashboard.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt text-sm"></i>
                 <p>Dashboard</p>
                 </a>
@@ -64,13 +64,13 @@
         
             <li class="nav-header">Transaksi</li>
             <li class="nav-item">
-                <a href="index.php?page=pembelian" class="nav-link">
+                <a href="index.php?page=pembelian" class="nav-link <?= menuBeli() ?>">
                 <i class="nav-icon fas fa-shopping-cart text-sm"></i>
                 <p>Pembelian</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="index.php?page=penjualan" class="nav-link">
+                <a href="index.php?page=penjualan" class="nav-link <?= menuJual() ?>">
                 <i class="nav-icon fas fa-file-invoice text-sm"></i>
                 <p>Penjualan</p>
                 </a>
