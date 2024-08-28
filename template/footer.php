@@ -32,7 +32,7 @@
   $(function(){
     let tema = sessionStorage.getItem('tema');
     if (tema) {
-      $('body').addClass('tema');
+      $('body').addClass(tema);
       $('#cekDark').prop('checked', true);
     }
 
@@ -44,7 +44,9 @@
         $('body').removeClass('dark-mode');
         sessionStorage.removeItem('tema'); 
       }
-    })
+    });
+
+
 
     $('#tblData').DataTable('');
 

@@ -10,7 +10,13 @@ require "config/config.php";
 require "config/functions.php";
 
 
-$nota = isset($_GET['nota']) ? $_GET['nota'] : '';
+// Cek apakah parameter 'nota' ada dan tidak kosong
+if (!isset($_GET['nota']) || empty($_GET['nota'])) {
+    die("Nomor nota tidak ditemukan dalam URL.");
+}
+
+$nota = $_GET['nota'];
+
 $dataJual = getData("SELECT * FROM tbl_jual_head WHERE no_jual = '$nota'");
 $itemJual = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nota'");
 
@@ -35,9 +41,7 @@ $itemJual = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nota'");
         <tr>
             <td><?= date('d-m-Y H:i:s') ?></td>
         </tr>
-        <tr>
-            <td><?= userLogin()['username'] ?></td>
-        </tr>
+        
 
 
 
@@ -67,19 +71,26 @@ $itemJual = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nota'");
         <tr>
             <td colspan="3" style="width: 100px;"></td>
             <td style="width: 50px; text-align:right">Total</td>
-            <td style="width: 70px; text-align:right" colspan="2"><b><?= number_format($dataJual['total'],0,",",".") ?></b></td>
+            <td style="width: 70px; text-align:right" colspan="2">
+    <b><?= number_format($dataJual['total'] ?? 0, 0, ",", ".") ?></b>
+</td>
+
         </tr>
         <tr>
             <td colspan="3" style="width: 100px;"></td>
             <td style="width: 50px; text-align:right">Bayar</td>
-            <td style="width: 70px; text-align:right" colspan="2"><b><?= number_format($dataJual['jml_bayar'],0,",",".") ?></b></td>
+            <td style="width: 70px; text-align:right" colspan="2">
+    <b><?= number_format($dataJual['bayar'] ?? 0, 0, ",", ".") ?></b>
+</td>
         </tr>
     </table>
     <table style="border-bottom: solid 2px; font-size: 14px;width: 240px;" >
         <tr>
             <td colspan="3" style="width: 100px;"></td>
             <td style="width: 50px; text-align:right">Kembalian</td>
-            <td style="width: 70px; text-align:right" colspan="2"><b><?= number_format($dataJual['kembalian'],0,",",".") ?></b></td>
+            <td style="width: 70px; text-align:right" colspan="2">
+    <b><?= number_format($dataJual['kembalian'] ?? 0, 0, ",", ".") ?></b>
+</td>
         </tr>
     </table>
     <table style="text-align:center; margin-top: 5px; font-size: 14px;width: 240px;" >

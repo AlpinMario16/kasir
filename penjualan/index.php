@@ -41,7 +41,7 @@ if ($kode) {
     if (mysqli_num_rows($dataBrg) == 0) {
         echo "<script>
         alert('Barang dengan barcode tersebut tidak ada.');
-        document.location = '?tgl=$tgl';
+        document.location = 'index.php?page=penjualan&tgl=$tgl';
         </script>";
     }
 }
@@ -59,21 +59,24 @@ if (isset($_POST['addbrg'])) {
 
 // jika tombol simpan ditekan
 if (isset($_POST['simpan'])) {
-    $nota  = $_POST['nojual'];
+    $nota = $_POST['nojual'];
     if (simpan($_POST)) {
+        // Susun URL di sisi server dengan PHP
+        $url = "index.php?page=penjualan&act=report&nota=" . urlencode($nota);
         echo "<script>
-        alert('Data pembelian berhasil disimpan');
-                window.onload = function(){
-                    let win = window.open('index.php?page=penjualan&act=report&nota=<?= $nota ?>','Struk Belanja','width=260,height=400,left=10,top=10','_blank');
+            alert('Data pembelian berhasil disimpan');
+            window.onload = function(){
+                let win = window.open('index.php?page=penjualan&act=report&nota=<?= $nota ?>','Struk Belanja','width=260,height=400,left=10,top=10','_blank');
 
-                    if(win){
+                if (win) {
                     win.focus();
-                    window.location ='index.php';
-    }
-    }
-                </script>";
+                    window.location = 'index.php';
+                }
+            }
+        </script>";
     }
 }
+
 
 
 $nojual = genereteNo();
