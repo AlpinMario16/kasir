@@ -26,7 +26,7 @@ if ($msg == 'deleted') {
     delete($barcode, $idjual, $qty);
     echo "<script>
                 alert('Barang telah dihapus.');
-                document.location = 'index.php?page=pembelian&tgl=$tgl';
+                document.location = 'index.php?page=penjualan&tgl=$tgl';
                 </script>";
 }
 
@@ -64,7 +64,7 @@ if (isset($_POST['simpan'])) {
         // Susun URL di sisi server dengan PHP
         $url = "index.php?page=penjualan&act=report&nota=" . urlencode($nota);
         echo "<script>
-            alert('Data pembelian berhasil disimpan');
+            alert('Data penjualan berhasil disimpan');
             window.onload = function(){
                 let win = window.open('index.php?page=penjualan&act=report&nota=<?= $nota ?>','Struk Belanja','width=260,height=400,left=10,top=10','_blank');
 
@@ -129,14 +129,14 @@ $nojual = genereteNo();
                         </div>
                     </div>
                     <div class="col-lg-6">
-    <div class="card card-outline card-danger pt-3 px-3 pb-2">
-        <h6 class="font-weight-bold text-right">Total Penjualan</h6>
-        <h1 class="font-weight-bold text-right" id="totalPenjualan" style="font-size: 40pt;">
-            <input type="hidden" id="total" name="total" value="<?= totalJual($nojual) ?>">
-            <?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
-        </h1>
-    </div>
-</div>
+                        <div class="card card-outline card-danger pt-3 px-3 pb-2">
+                            <h6 class="font-weight-bold text-right">Total Penjualan</h6>
+                            <h1 class="font-weight-bold text-right" id="totalPenjualan" style="font-size: 40pt;">
+                                <input type="hidden" id="total" name="total" value="<?= totalJual($nojual) ?>">
+                                <?= number_format(totalJual($nojual) ?? 0, 0, ',', '.') ?>
+                            </h1>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="card pt-1 pb-2 px-3">
@@ -169,7 +169,8 @@ $nojual = genereteNo();
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="qty">Qty</label>
-                                <input type="number" name="qty" class="form-control form-control-sm" id="qty" value="<?= isset($selectBrg['harga_jual']) ? 1 : '' ?>">
+                                <input type="number" name="qty" class="form-control form-control-sm" id="qty" value="<?= isset($selectBrg['harga_jual']) ? 1 : '' ?>" min="1">
+
                             </div>
                         </div>
                         <div class="col-lg-2">

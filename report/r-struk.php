@@ -16,7 +16,6 @@ if (!isset($_GET['nota']) || empty($_GET['nota'])) {
 }
 
 $nota = $_GET['nota'];
-
 $dataJual = getData("SELECT * FROM tbl_jual_head WHERE no_jual = '$nota'");
 $itemJual = getData("SELECT * FROM tbl_jual_detail WHERE no_jual = '$nota'");
 
